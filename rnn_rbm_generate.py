@@ -19,7 +19,7 @@ import midi_manipulation
 
 
 num = 3 #The number of songs to generate
-primer_song = 'Pop_Music_Midi/Every Time We Touch - Chorus.midi' #The path to the song to use to prime the network
+primer_song = 'Pop_Music_Midi/elise.midi' #The path to the song to use to prime the network
 
 def main(saved_weights_path):
     #This function takes as input the path to the weights of the network
