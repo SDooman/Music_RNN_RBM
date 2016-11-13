@@ -89,11 +89,13 @@ def rnnrbm():
 
         """
         Uarr = tf.scan(rnn_recurrence, x, initializer=u0)
-        U = Uarr[np.floor(prime_length/midi_manipulation.num_timesteps), :, :]
-        [_, _, _, _, _, music] = control_flow_ops.While(lambda count, num_iter, *args: count < num_iter,
+        U = Uarr[np.floor(prime_length/midi_manipulation.num_timesteps).astype(np.int32), :, :]
+        [_, _, _, _, _, music] = tf.while_loop(lambda count, num_iter, *args: count < num_iter,
                                                          generate_recurrence, [tf.constant(1, tf.int32), tf.constant(num), U,
                                                          tf.zeros([1, n_visible], tf.float32), x, 
-                                                         tf.zeros([1, n_visible],  tf.float32)])
+                                                         tf.zeros([1, n_visible],  tf.float32)],
+																												 # TODO: put correct dims in shape_invariants
+																												 shape_invariants=[], parallel_iterations=1)
         return music
 
     #Reshape our bias matrices to be the same size as the batch.
